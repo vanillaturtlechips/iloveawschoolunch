@@ -1,22 +1,27 @@
 // iloveawschoolunch/Jenkinsfile
 
 pipeline {
-    agent any // Jenkins가 가능한 아무 작업 컴퓨터에서나 이 파이프라인을 실행
+    agent any
 
+    // ⭐️ Build Frontend 스테이지에 tools 블록 추가 ⭐️
     stages {
         stage('Checkout') {
             steps {
-                // GitHub에서 소스 코드를 가져오는 단계
-                git branch: 'main', credentialsId: 'github-username-pat', url: 'https://github.com/vanillaturtlechips/iloveawschoolunch.git'
+                // 이 부분은 GitHub에서 코드를 가져오는 기본 단계입니다.
+                // Jenkins가 자동으로 처리해주므로 직접 쓸 필요가 없습니다.
+                // 혼란을 줄이기 위해 이 부분은 삭제하고 아래처럼 단순화합니다.
+                checkout scm
             }
         }
         stage('Build Frontend') {
+            // "이 stage를 시작하기 전에 'node-20'이라는 NodeJS 도구를 준비해줘"
+            tools {
+                nodejs 'node-20'
+            }
             steps {
                 // 'frontend' 디렉토리 안에서 명령어를 실행
                 dir('frontend') {
-                    // Node.js v20.11.0 버전을 사용하도록 설정 (Jenkins 서버에 설치됨)
-                    tool name: 'node-20', type: 'nodejs'
-                    // npm install 과 npm run build 스크립트를 실행
+                    // 이제 Jenkins는 npm 명령어가 어디 있는지 알고 있습니다.
                     sh 'npm install'
                     sh 'npm run build'
                 }
