@@ -2,8 +2,7 @@
 
 pipeline {
     agent any
-
-    // ⭐️ Build Frontend 스테이지에 tools 블록 추가 ⭐️
+    
     stages {
         stage('Checkout') {
             steps {
