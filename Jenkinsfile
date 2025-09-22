@@ -64,8 +64,8 @@ pipeline {
                     script {
                   
                        // 1. Docker Hub 로그인 (사용자 ID 적용)
-                        sh "echo $DOCKERHUB_CREDENTIALS |
- docker login -u ${DOCKER_IMAGE_NAME.split('/')[0]} --password-stdin"
+                       sh """echo $DOCKERHUB_CREDENTIALS |
+ docker login -u ${DOCKER_IMAGE_NAME.split('/')[0]} --password-stdin"""
 
                         // 2. Docker 이미지 빌드
                         sh "docker build -t ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} ."
@@ -80,19 +80,19 @@ pipeline {
 
         stage('Deploy Backend to EC2') {
             steps {
-                 sshagent(credentials: ['ec2-ssh-key']) {
-                     sh """
+                script {
+                    sh """
                         # 기존 컨테이너가 있다면 중지하고 삭제 (무중단 배포를 위한 준비)
                  
-                        ssh -o StrictHostKeyChecking=no ec2-user@3.39.141.56 "docker stop iloveawschoolunch-backend || true"
-                        ssh -o StrictHostKeyChecking=no ec2-user@3.39.141.56 "docker rm iloveawschoolunch-backend || true"
+                        docker stop iloveawschoolunch-backend || true
+                        docker rm iloveawschoolunch-backend || true
 
                         # Docker Hub에서 최신 이미지 받아오기
-                        ssh -o StrictHostKeyChecking=no ec2-user@3.39.141.56 "docker pull ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
+                        docker pull ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}
 
                         # Gunicorn을 실행하는 새 컨테이너를 백그라운드에서 실행
                
-                        ssh -o StrictHostKeyChecking=no ec2-user@3.39.141.56 "docker run -d --name iloveawschoolunch-backend -p 8000:8000 ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}"
+                        docker run -d --name iloveawschoolunch-backend -p 8000:8000 ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}
                     """
                 }
             }
