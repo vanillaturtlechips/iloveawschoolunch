@@ -105,3 +105,15 @@ resource "aws_s3_bucket_policy" "lunch_bot_frontend_bucket_policy" {
   depends_on = [aws_s3_bucket_public_access_block.lunch_bot_frontend_bucket_access]
 }
 
+resource "aws_eip" "lunch_bot_eip" {
+  domain = "vpc"
+
+  tags = {
+    Name = "iloveawschoolunch-eip"
+  }
+}
+
+resource "aws_eip_association" "eip_assoc" {
+  instance_id = aws_instance.lunch_bot_server.id
+  allocation_id = aws_eip.lunch_bot_eip.id
+}
