@@ -45,7 +45,8 @@ pipeline {
                         s3Upload(
                             file: 'frontend/dist',
                             bucket: bucketName,
-                            path: '/'
+                            path: '/',
+                            uploadingStrategy: 'publicRead'
                         )
                     }
                 }
