@@ -56,7 +56,7 @@ pipeline {
                 dir('backend') { // Dockerfile이 있는 backend 폴더로 이동
                     script {
                         // 1. Docker Hub 로그인 (사용자 ID 적용)
-                        sh "echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u ${DOCKER_IMAGE_NAME.split('/')[0]} --password-stdin"
+                        sh "echo $DOCKERHUB_CREDENTIALS | docker login -u ${DOCKER_IMAGE_NAME.split('/')[0]} --password-stdin"
 
                         // 2. Docker 이미지 빌드
                         sh "docker build -t ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} ."
