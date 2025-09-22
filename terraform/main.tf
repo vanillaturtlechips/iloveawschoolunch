@@ -68,6 +68,8 @@ resource "aws_security_group" "lunch_bot_sg" {
 resource "aws_s3_bucket" "lunch_bot_frontend_bucket" {
   # bucket 이름이 lunch_bot_frontend_bucket으로 통일되었습니다.
   bucket = "iloveawschoolunch-frontend-bucket-${random_id.bucket_suffix.hex}"
+
+  force_destroy = true
 }
 
 # 6. S3 버킷 이름에 붙일 랜덤 문자열 생성
