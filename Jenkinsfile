@@ -36,7 +36,7 @@ pipeline {
                 // 'def'와 같은 스크립트 문법을 사용하기 위해 script 블록으로 감싸줍니다.
                 script {
                     // withAWS 블록으로 AWS 인증/리전 설정을 적용합니다.
-                    withAWS(credentials: 'aws-credentials', region: 'ap-n-2') {
+                    withAWS(credentials: 'aws-credentials', region: 'ap-northeast-2') {
                         
                         // AWS S3 콘솔에서 확인한 실제 버킷 이름을 변수로 지정합니다.
                         def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"

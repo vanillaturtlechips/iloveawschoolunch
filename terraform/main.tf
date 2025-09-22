@@ -6,9 +6,9 @@ provider "aws" {
 
 resource "aws_instance" "lunch_bot_server" {
   ami           = "ami-0c9c942bd7bf113a2"
-  instance_type = "t2.micro"
+  instance_type = "t3.small"
   vpc_security_group_ids = [aws_security_group.lunch_bot_sg.id]
-  key_name      = "lunch-bot-key" # 2단계에서 생성할 키 페어 이름입니다.
+  key_name      = "lunch-bot-key" 
 
   tags = {
     Name = "iloveawschoolunch-server"
