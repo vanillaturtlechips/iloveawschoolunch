@@ -28,8 +28,8 @@ pipeline {
         }
         stage('Deploy Frontend') {
             steps {
+                script {
                 withAWS(credentials: 'aws-credentials', region: 'ap-northeast-2') {
-
                     def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
                     
                     s3Upload(
