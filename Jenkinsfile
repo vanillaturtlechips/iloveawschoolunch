@@ -33,19 +33,21 @@ pipeline {
         // 3단계: 프론트엔드 배포하기
         stage('Deploy Frontend') {
             steps {
-                // withAWS 블록으로 AWS 인증/리전 설정을 적용합니다.
-                // 'aws-credentials'는 Jenkins에 등록한 ID입니다.
-                withAWS(credentials: 'aws-credentials', region: 'ap-northeast-2') {
-                    
-                    // AWS S3 콘솔에서 확인한 실제 버킷 이름을 변수로 지정합니다.
-                    def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
-                    
-                    // 'frontend/dist' 폴더의 내용물을 S3 버킷 최상위 경로에 업로드합니다.
-                    s3Upload(
-                        file: 'frontend/dist',
-                        bucket: bucketName,
-                        path: '/'
-                    )
+                // 👇 변수 선언(def)과 같은 스크립트 코드를 사용하기 위해 script 블록으로 감싸줍니다.
+                script {
+                    // withAWS 블록으로 AWS 인증/리전 설정을 적용합니다.
+                    withAWS(credentials: 'aws-credentials', region: 'ap-northeast-2') {
+                        
+                        // AWS S3 콘솔에서 확인한 실제 버킷 이름을 변수로 지정합니다.
+                        def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
+                        
+                        // 'frontend/dist' 폴더의 내용물을 S3 버킷 최상위 경로에 업로드합니다.
+                        s3Upload(
+                            file: 'frontend/dist',
+                            bucket: bucketName,
+                            path: '/'
+                        )
+                    }
                 }
             }
         }
