@@ -2,7 +2,7 @@
 
 pipeline {
     agent any
-    
+
     stages {
         stage('Checkout') {
             steps {
@@ -23,6 +23,19 @@ pipeline {
                     // 이제 Jenkins는 npm 명령어가 어디 있는지 알고 있습니다.
                     sh 'npm install'
                     sh 'npm run build'
+                }
+            }
+        }
+        stage('Deploy Frontend') {
+            steps {
+                script {
+                    def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
+                    awsS3Upload (
+                        file: 'frontend/dist/',
+                        bucket: bucketName,
+                        path: '/',
+                        credentials: 'aws-credentials'
+                    )
                 }
             }
         }
