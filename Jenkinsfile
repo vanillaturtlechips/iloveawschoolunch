@@ -1,3 +1,5 @@
+// test
+
 pipeline {
     // Jenkins가 가능한 아무 작업 컴퓨터에서나 이 파이프라인을 실행합니다.
     agent any
