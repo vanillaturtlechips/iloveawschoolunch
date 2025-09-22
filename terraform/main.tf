@@ -6,7 +6,7 @@ provider "aws" {
 
 resource "aws_instance" "lunch_bot_server" {
   ami           = "ami-0c9c942bd7bf113a2"
-  instance_type = "t3.small"
+  instance_type = "t3.medium"
   vpc_security_group_ids = [aws_security_group.lunch_bot_sg.id]
   key_name      = "lunch-bot-key" 
 
