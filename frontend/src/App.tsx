@@ -23,7 +23,7 @@ function App() {
     async function fetchRestaurants() {
       try {
         // Django API 서버에 맛집 정보를 요청합니다.
-        const response = await fetch('http://3.39.141.56:8000/api/restaurants');
+        const response = await fetch('http://127.0.0.1:8000/api/restaurants');
         if (!response.ok) {
           throw new Error('데이터를 불러오는 데 실패했습니다.');
         }
