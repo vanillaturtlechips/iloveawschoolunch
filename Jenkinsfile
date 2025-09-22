@@ -1,4 +1,4 @@
-// test
+// iloveawschoolunch/Jenkinsfile
 
 pipeline {
     // Jenkins가 가능한 아무 작업 컴퓨터에서나 이 파이프라인을 실행합니다.
@@ -30,28 +30,26 @@ pipeline {
             }
         }
 
-        // 3단계: 프론트엔드 배포하기
+        // 3단계: 프론트엔드 배포하기 (수정된 최종 버전)
         stage('Deploy Frontend') {
             steps {
-                // 'def'와 같은 스크립트 문법을 사용하기 위해 script 블록으로 감싸줍니다.
-                script {
-                    // withAWS 블록으로 AWS 인증/리전 설정을 적용합니다.
-                    withAWS(credentials: 'aws-credentials', region: 'ap-northeast-2') {
-                        
-                        // AWS S3 콘솔에서 확인한 실제 버킷 이름을 변수로 지정합니다.
-                        def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
-                        
-                        // 'frontend/dist' 폴더의 내용물을 S3 버킷 최상위 경로에 업로드합니다.
-                        s3Upload(
-                            file: 'frontend/dist',
-                            bucket: bucketName,
-                            path: '/',
-                            uploadingStrategy: 'publicRead'
-                        )
+                // 먼저 빌드가 완료된 'frontend/dist' 폴더 안으로 이동합니다.
+                dir('frontend/dist') {
+                    script {
+                        withAWS(credentials: 'aws-credentials', region: 'ap-northeast-2') {
+                            def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
+                            
+                            // 현재 폴더(dist)의 모든 내용물을 버킷 최상위에 '공개 읽기' 권한으로 업로드합니다.
+                            s3Upload(
+                                bucket: bucketName,
+                                path: '/',
+                                file: '**/*', // 현재 폴더의 모든 파일 및 하위 폴더를 의미
+                                uploadingStrategy: 'publicRead' // 공개 읽기 권한으로 설정
+                            )
+                        }
                     }
                 }
             }
         }
     }
 }
-
