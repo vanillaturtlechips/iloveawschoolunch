@@ -68,7 +68,7 @@ pipeline {
  docker login -u ${DOCKER_IMAGE_NAME.split('/')[0]} --password-stdin"""
 
                         // 2. Docker 이미지 빌드
-                        sh "docker build -t ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} ."
+                        sh "docker build -t ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} -f Dockerfile .."
 
                         // 3. Docker Hub에 이미지 푸시
           
