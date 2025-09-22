@@ -10,6 +10,10 @@ resource "aws_instance" "lunch_bot_server" {
   vpc_security_group_ids = [aws_security_group.lunch_bot_sg.id]
   key_name      = "lunch-bot-key" 
 
+  root_block_device {
+    volume_size = 30  # 하드디스크 크기를 30GB로 설정
+  }
+
   tags = {
     Name = "iloveawschoolunch-server"
   }
