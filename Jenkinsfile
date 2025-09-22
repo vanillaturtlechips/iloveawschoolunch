@@ -92,7 +92,7 @@ pipeline {
 
                         # Gunicorn을 실행하는 새 컨테이너를 백그라운드에서 실행
                
-                        docker run -d --name iloveawschoolunch-backend -p 8000:8000 ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG}
+                        docker run -d --name iloveawschoolunch-backend -p 8000:8000 ${env.DOCKER_IMAGE_NAME}:${env.DOCKER_IMAGE_TAG} gunicorn wsgi:application --bind 0.0.0.0:8000 --log-level debug
                     """
                 }
             }
