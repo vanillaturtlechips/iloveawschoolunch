@@ -22,7 +22,7 @@ pipeline {
             }
         }
 
-        // 3단계: 프론트엔드 배포하기 (수정된 최종 버전)
+        // 3단계: 프론트엔드 배포하기 (진짜 최종 버전)
         stage('Deploy Frontend') {
             steps {
                 script {
@@ -30,13 +30,11 @@ pipeline {
                         def bucketName = "iloveawschoolunch-frontend-bucket-210cb53cc6da0d61"
                         
                         // 'frontend/dist' 폴더의 내용물을 버킷에 업로드합니다.
+                        // ACL 관련 옵션을 모두 제거합니다.
                         s3Upload(
                             bucket: bucketName,
                             path: '/',
-                            // 1. 파일 경로를 더 명확하게 지정합니다.
-                            file: 'frontend/dist/', 
-                            // 2. 권한 설정 옵션을 표준 파라미터로 변경합니다.
-                            acl: 'PublicRead' 
+                            file: 'frontend/dist/'
                         )
                     }
                 }
